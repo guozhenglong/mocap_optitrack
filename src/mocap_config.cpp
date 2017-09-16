@@ -62,7 +62,7 @@ PublishedRigidBody::PublishedRigidBody(XmlRpc::XmlRpcValue &config_node)
   velocity_last.x = 0.0;
   velocity_last.y = 0.0;
   velocity_last.z = 0.0;
-  dt = 1/120;
+  dt = 1.0/120.0;
   low_pass_param = 0.3;
   // load configuration for this rigid body from ROS
   publish_pose = validateParam(config_node, POSE_TOPIC_PARAM_NAME);
