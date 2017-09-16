@@ -55,6 +55,15 @@ const std::string PARENT_FRAME_ID_PARAM_NAME = "parent_frame_id";
 
 PublishedRigidBody::PublishedRigidBody(XmlRpc::XmlRpcValue &config_node)
 {
+  
+  position_last.x = 0.0;
+  position_last.y = 0.0;
+  position_last.z = 0.0;
+  velocity_last.x = 0.0;
+  velocity_last.y = 0.0;
+  velocity_last.z = 0.0;
+  dt = 1/120;
+  low_pass_param = 0.3;
   // load configuration for this rigid body from ROS
   publish_pose = validateParam(config_node, POSE_TOPIC_PARAM_NAME);
   publish_pose2d = validateParam(config_node, POSE2D_TOPIC_PARAM_NAME);
@@ -66,6 +75,7 @@ PublishedRigidBody::PublishedRigidBody(XmlRpc::XmlRpcValue &config_node)
   {
     pose_topic = (std::string&) config_node[POSE_TOPIC_PARAM_NAME];
     pose_pub = n.advertise<geometry_msgs::PoseStamped>(pose_topic, 1000);
+    linear_vel_pub = n.advertise<geometry_msgs::PointStamped>("/Robot_1/linear_velocity",1000);
   }
 
   if (publish_pose2d)
@@ -100,7 +110,21 @@ void PublishedRigidBody::publish(RigidBody &body)
   if (publish_pose)
   {
     pose.header.frame_id = parent_frame_id;
-    pose_pub.publish(pose);
+    position_new = pose.pose.position;
+
+    vel_pub.point.x = (position_new.x -  position_last.x)/dt;
+    vel_pub.point.y = (position_new.y -  position_last.y)/dt;
+    vel_pub.point.z = (position_new.z -  position_last.z)/dt;
+
+    vel_pub.header.frame_id = "robot1_vel";
+    vel_pub.header.stamp = ros::Time::now();
+    vel_pub.point.x = low_pass_param * velocity_last.x + (1- low_pass_param)*vel_pub.point.x;
+    vel_pub.point.y = low_pass_param * velocity_last.y + (1- low_pass_param)*vel_pub.point.y;
+    vel_pub.point.z = low_pass_param * velocity_last.z + (1- low_pass_param)*vel_pub.point.z;
+
+    position_last = position_new;
+    velocity_last = vel_pub.point;
+    linear_vel_pub.publish(vel_pub);
   }
 
   if (!publish_pose2d && !publish_tf)
