@@ -28,7 +28,8 @@ int main(int argc, char* argv[])
 
 void Pose_Mocap_CallBack(const geometry_msgs::PoseStamped::ConstPtr msg)
 {
-    tf_fake_gps.header = msg->header;
+    tf_fake_gps.header.frame_id = "/map";
+    tf_fake_gps.header.stamp=ros::Time::now();
     tf_fake_gps.child_frame_id = "/mocap/intel_rtf";
     tf_fake_gps.transform.translation.x = msg->pose.position.x;
     tf_fake_gps.transform.translation.y = msg->pose.position.y;
