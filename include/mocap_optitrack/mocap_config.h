@@ -69,15 +69,6 @@ class PublishedRigidBody
   tf::TransformBroadcaster tf_pub;
   ros::Publisher pose_pub;
   ros::Publisher pose2d_pub;
-  ros::Publisher linear_vel_pub;
-
-  double dt ;
-  double low_pass_param;
-  geometry_msgs::PointStamped vel_pub;
-  geometry_msgs::Point position_new;
-  geometry_msgs::Point position_last;
-  geometry_msgs::Point velocity_last;
-  
 
   bool validateParam(XmlRpc::XmlRpcValue &, const std::string &);
 

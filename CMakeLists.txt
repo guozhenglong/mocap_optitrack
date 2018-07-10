@@ -6,6 +6,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs tf roslaun
 catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS roscpp message_runtime
+  DEPENDS Eigen OpenCV
 )
 
 include_directories(include

@@ -1,0 +1,23 @@
+  <launch>
+  	<!-- Launches the mocap_optitrack, get all the pose  -->
+	<include file="$(find mocap_optitrack)/launch/mocap.launch" />
+        
+        <node pkg="mocap_optitrack" type="get_vel_node" name="get_robot1_vel_node" output="screen">
+                <remap from="/Robot/pose" to="/Robot_1/pose"/>
+                <remap from="/Robot/vel_sync" to="/Robot_1/vel_sync"/>
+                <remap from="/Robot/pos_sync" to="/Robot_1/pos_sync"/>
+        </node>
+
+        <node pkg="mocap_optitrack" type="get_vel_node" name="get_robot2_vel_node" output="screen">
+                <remap from="/Robot/pose" to="/Robot_2/pose"/>
+                <remap from="/Robot/vel_sync" to="/Robot_2/vel_sync"/>
+                <remap from="/Robot/pos_sync" to="/Robot_2/pos_sync"/>
+        </node>
+
+        <node pkg="mocap_optitrack" type="get_vel_node" name="get_robot3_vel_node" output="screen">
+                <remap from="/Robot/pose" to="/Robot_3/pose"/>
+                <remap from="/Robot/vel_sync" to="/Robot_3/vel_sync"/>
+                <remap from="/Robot/pos_sync" to="/Robot_3/pos_sync"/>
+        </node>
+
+</launch>

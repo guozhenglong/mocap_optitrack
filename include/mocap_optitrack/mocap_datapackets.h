@@ -44,7 +44,6 @@
 #include <iostream>
 #include <string>
 #include <geometry_msgs/PoseStamped.h>
-#include <geometry_msgs/PointStamped.h>
 
 using namespace std;
 
