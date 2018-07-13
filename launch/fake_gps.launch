@@ -1,8 +1,11 @@
 <launch>
     <!-- Launches the mocap_optitrack, get all the pose  -->
+    <param name="use_sim_time" value="false" />
+
     <include file="$(find mocap_optitrack)/launch/mocap.launch" />
         <node pkg="mocap_optitrack" type="tf_mocap_node" name="mocap_fake_gps_node" output="screen">
                 <remap from="/Robot/pose" to="/Robot_1/pose"/>
                 <remap from="/mocap_fake_gps" to="/mavros/mocap_fake_gps"/>
+                <remap from="/mocap_pose" to="/mavros/mocap/pose"/>
         </node>
 </launch>
